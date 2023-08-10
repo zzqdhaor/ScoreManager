@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zq.scoremanager.mapper.TeachMapper">
+    <select id="getAllTeach" resultType="zq.scoremanager.bean.Teach">
+        select teach.id as id,
+        u.no as teacher_no,
+        u.name as teacher_name,
+        c.id as course_id,
+        c.name as course_name
+        from teach
+        inner join course c on teach.course_id = c.id
+        inner join user u on teach.teacher_no = u.no
+    </select>
+    <select id="addTeach">
+        insert into teach(teacher_no, course_id) values(#{teacherNo}, #{courseId})
+    </select>
+    <select id="getAllTeachers" resultType="zq.scoremanager.bean.User">
+        select no,name from user where role=1
+    </select>
+    <select id="getAllCourses" resultType="zq.scoremanager.bean.Course">
+        select * from course
+    </select>
+    <select id="getAllStudents" resultType="zq.scoremanager.bean.User">
+        select no,name from user where role=2
+    </select>
+    <insert id="registerStudents">
+        insert into score(teacher_no, course_id, student_no) values
+        <foreach collection="students" item="stu" separator=",">
+            (#{teacherNo}, #{courseId}, #{stu})
+        </foreach>
+    </insert>
+    <select id="getStudentsByTeach" resultType="zq.scoremanager.bean.User">
+        select no,name from score inner join user on score.student_no = user.no where teacher_no=#{teacherNo} and course_id=#{courseId}
+    </select>
+
+    <delete id="removeTeach">
+        delete from teach where teacher_no=#{teacherNo} and course_id=#{courseId}
+    </delete>
+</mapper>

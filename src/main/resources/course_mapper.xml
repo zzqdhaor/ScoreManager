@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zq.scoremanager.mapper.CourseMapper">
+    <select id="getAllCourse" resultType="zq.scoremanager.bean.Course">
+        select * from course
+    </select>
+    <insert id="addCourse">
+        insert into course(name, course_score, course_time) values(#{name}, #{courseScore}, #{courseTime})
+    </insert>
+    <delete id="deleteCourse">
+        delete from course where id=#{id}
+    </delete>
+</mapper>

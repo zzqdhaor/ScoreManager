@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zq.scoremanager.mapper.UserMapper">
+    <select id="getUserByUsernameAndPassword" resultType="zq.scoremanager.bean.User">
+        select * from user where no=#{no} and password=#{password}
+    </select>
+    <select id="getUsersByPage" resultType="zq.scoremanager.bean.User">
+        select * from user limit #{start}, #{count}
+    </select>
+    <insert id="addUser">
+        insert into user values(#{no}, #{name}, #{password}, #{role})
+    </insert>
+    <update id="changePassword">
+        update user set password=#{password} where no=#{no}
+    </update>
+    <select id="getTotalNum" resultType="int">
+        select count(*) from user
+    </select>
+    <delete id="deleteUserByNo">
+        delete from user where no=#{no}
+    </delete>
+    <update id="changePasswordNotPrivilege">
+        update user set password=#{newPass} where no=#{no} and password=#{oldPass}
+    </update>
+</mapper>

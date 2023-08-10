@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zq.scoremanager.mapper.TeacherMapper">
+    <select id="getTeacherCourses" resultType="zq.scoremanager.bean.Course">
+        select course.id, name, course_score, course_time from teach inner join course on course.id=teach.course_id where teacher_no=#{teacherNo}
+    </select>
+    <select id="getStudentScores" resultType="zq.scoremanager.bean.StudentScore">
+        select * from score inner join user on score.student_no=user.no where teacher_no=#{teacherNo} and course_id=#{courseId}
+    </select>
+    <update id="updateScore">
+        update score set score.score=#{score} where teacher_no=#{teacherNo} and student_no=#{studentNo} and course_id=#{courseId}
+    </update>
+    <select id="getStatisticInfo" resultType="zq.scoremanager.bean.StatisticInfo">
+        select count(score) as number,
+        round(sum(score)/count(score), 2) as average_score,
+        max(score) as highest_score,
+        round(SUM(IF(score >= 60, 1, 0))/COUNT(*) * 100, 2) as pass_percentage,
+        round(SUM(IF(score >= 90, 1, 0))/COUNT(*) * 100, 2) as great_percentage
+        from score where course_id=#{courseId} and teacher_no=#{teacherNo}
+    </select>
+</mapper>

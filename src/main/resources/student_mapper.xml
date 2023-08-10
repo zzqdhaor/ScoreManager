@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zq.scoremanager.mapper.StudentMapper">
+    <select id="getAllScores" resultType="zq.scoremanager.bean.StudentCourseAndScore">
+        select c.name as course_name,score,u.name as teacher_name,course_time,course_score from score inner join course c on score.course_id = c.id inner join user u on score.teacher_no = u.no where score.student_no=#{no}
+    </select>
+</mapper>
